@@ -2,5 +2,10 @@ import java.util.*;
 
 class Question {
   int id;
-  int difficulty;
+  double difficulty;
+
+  Question(int id, double difficulty){
+    this.id = id;
+    this.difficulty = difficulty;
+  }
 }
