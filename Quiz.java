@@ -81,15 +81,51 @@ class Quiz{
 
   private List<Question> getQuestions(int total){
         // Returns quiz questions
+        List<Strand> filtered = distributeEvenly(this.strands), total);
         List<Question> questions = new ArrayList<Question>();
+
         return questions;
   }
 
-  private List<Element> distributeEvenly(List<Element> elements, int total){
+  private List<Integer> distributeEvenly(List<Element> elements, int total){
       // Distributes the elements evenly and returns a list of elements
+      HashMap<Integer, Integer> map = new HashMap<Integer,Integer>();
+      boolean allzeroes = false;
+      int zerocount = 0;
+      List<Integer> ids = new ArrayList<Integer>();
+      for(Element e:elements){
+          if(map.containsKey(e.id)){
+                int val = map.get(e.id);
+                val++;
+                map.put(e.id,val);
+          }
+          else{
+            map.put(e.id,1);
+          }
+      }
 
+      while(true){
+        for(int i: map.keySet()){
+          int val = map.get(i);
+          if((val>0 && !allzeroes) || (val<=0 && allzeroes)){
+              ids.add(i);
+              total--;
+              val--;
+              if(val==0){
+                zerocount++;
+              }
+              map.put(i,val);
+          }
+        }
+        if(zerocount >= map.keySet().size()){
+            allzeroes = true;
+        }
 
-      return elements;
+        if(total==0){
+          break;
+        }
+    }
+      return ids;
   }
 
   private List<Question> selectQuestions(List<Standard> stds){
